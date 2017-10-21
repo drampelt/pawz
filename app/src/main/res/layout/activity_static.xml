@@ -76,8 +76,7 @@
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/eyeColor"
-                app:srcCompat="@drawable/common_google_signin_btn_icon_light_normal_background" />
+                app:layout_constraintTop_toBottomOf="@+id/eyeColor"/>
 
             <io.hackharvard.pawz.CustomMapView
                 android:id="@+id/mapView2"

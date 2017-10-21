@@ -13,6 +13,7 @@ import android.os.Vibrator
 import android.preference.PreferenceManager
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -148,7 +149,7 @@ class PetInfoActivity : AppCompatActivity() {
             genderSelected &&
             furColourTyped &&
             eyeColourTyped &&
-                ((!found && nameTyped) || found) &&
+            ((!found && nameTyped) || found) &&
             imageSelected &&
             locationSelected) {
             val catSelected = catButton.isChecked
@@ -167,36 +168,44 @@ class PetInfoActivity : AppCompatActivity() {
             var latitude = marker!!.position.latitude
 
             if (found) {
-                //added for reporting pet
-                val pet = mapOf(
-                        "name" to "",
-                        "species" to species,
-                        "gender" to gender,
-                        "fur_colors" to furColour.split(',').map(String::trim),
-                        "eye_colors" to eyeColour.split(',').map(String::trim),
-                        "latitude" to latitude,
-                        "longitude" to longitude
-                )
+                db.collection("missing_pets").get()
+                    .addOnSuccessListener { snapshot ->
+                        snapshot.forEach { pet ->
+                            Log.d("PetInfoActivity", "Pet $pet")
+                            if (pet["species"] != species) return@forEach
 
-                db.collection("missing_pets")
-                        .add(pet)
-                        .addOnSuccessListener { ref ->
-                            Toast.makeText(this, "Ref ${ref.id}", Toast.LENGTH_LONG).show()
-                            sharedPreferences.edit().putString("pet_id", ref.id).apply()
+                            val results = FloatArray(1)
+                            Location.distanceBetween(latitude, longitude, pet["latitude"] as Double, pet["longitude"] as Double, results)
+                            val distance = results[0]
+                            if (distance >= 25000) return@forEach
 
-                            if (filePath == null) return@addOnSuccessListener
-                            val file = Uri.fromFile(File(filePath))
-                            val ref = storage.getReference("images/${ref.id}")
-                            val task = ref.putFile(file)
-                            task.addOnSuccessListener { snapshot ->
-                                Toast.makeText(this, "Snap ${snapshot.metadata?.contentType}", Toast.LENGTH_LONG).show()
-                            }.addOnFailureListener { e ->
-                                Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_LONG).show()
-                            }
+                            var matches = 0
+                            if (pet["gender"] == gender) matches++
+
+                            val furColorMatches = (pet["fur_colors"] as List<String>).intersect(furColour.split(",").map(String::trim))
+                            if (furColorMatches.isNotEmpty()) matches++
+
+                            val eyeColorMatches = (pet["eye_colors"] as List<String>).intersect(eyeColour.split(",").map(String::trim))
+                            if (eyeColorMatches.isNotEmpty()) matches++
+
+                            if (matches < 2) return@forEach
+
+                            val sighting = mapOf(
+                                "species" to species,
+                                "gender" to gender,
+                                "fur_colors" to furColour.split(',').map(String::trim),
+                                "eye_colors" to eyeColour.split(',').map(String::trim),
+                                "latitude" to latitude,
+                                "longitude" to longitude
+                            )
+
+                            db.collection("missing_pets").document(pet.id).collection("sightings").add(sighting)
+                                .addOnSuccessListener {
+                                    Log.d("PetInfoActivity", "Added sighting $sighting to pet ${pet.id}")
+                                }
                         }
-                finish()
-                //does this need to change?
-
+                        finish()
+                    }
             } else {
                 val pet = mapOf(
                     "name" to nameText,
