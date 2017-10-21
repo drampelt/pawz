@@ -4,6 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
     <item
+        android:id="@+id/petInfoCancel"
+        android:icon="@drawable/ic_close"
+        android:title="Cancel"
+        app:showAsAction="always|withText" />
+
+    <item
         android:id="@+id/petInfoSubmit"
         android:icon="@drawable/ic_check"
         android:title="Submit"
