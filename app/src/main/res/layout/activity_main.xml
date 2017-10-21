@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="io.hackharvard.pawz.MainActivity">
+    tools:context="io.hackharvard.pawz.MainActivity"
+    android:background="#233D4D">
 
     <ImageView
         android:id="@+id/pawzLogo"
@@ -20,24 +21,59 @@
 
     <Button
         android:id="@+id/foundPetButton"
-        android:layout_width="175dp"
+        android:layout_width="0dp"
         android:layout_height="65dp"
         android:layout_marginBottom="24dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:background="@drawable/button_main_menu"
         android:text="I found a pet"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/lostPetButton"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/lostPetButton"
         style="@style/Widget.AppCompat.Button"
-        android:layout_width="175dp"
+        android:layout_width="0dp"
         android:layout_height="65dp"
         android:layout_marginBottom="24dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/button_main_menu"
         android:text="I lost my pet"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/foundPetButton" />
+
+    <TextView
+        android:id="@+id/main_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:textSize="24sp"
+        android:text="Pawz"
+        android:textColor="#eeeeee"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pawzLogo" />
+
+    <TextView
+        android:id="@+id/main_slogan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="56dp"
+        android:text="This is Pawz's slogan."
+        android:textColor="#eeeeee"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pawzLogo" />
 </android.support.constraint.ConstraintLayout>

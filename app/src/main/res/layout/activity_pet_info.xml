@@ -7,16 +7,17 @@
     android:layout_height="match_parent"
     tools:context="io.hackharvard.pawz.PetInfoActivity"
     android:id="@+id/contentView"
+    android:background="#EDEEC9"
     >
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            >
 
             <EditText
                 android:id="@+id/nameField"
@@ -28,6 +29,7 @@
                 android:ems="10"
                 android:hint="Name"
                 android:inputType="textPersonName"
+                android:textColor="#eee"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -153,13 +155,16 @@
                 android:id="@+id/choosePhotoButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/button_main_menu"
+                android:paddingEnd="24dp"
+                android:paddingStart="24dp"
                 android:text="Upload Photo"
-                app:layout_constraintBottom_toBottomOf="@+id/petPicture"
-                app:layout_constraintStart_toEndOf="@+id/petPicture"
-                />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/petPicture" />
 
             <com.google.android.gms.maps.MapView
                 android:id="@+id/mapView"
@@ -168,12 +173,12 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="12dp"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="14dp"
+                android:layout_marginTop="36dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/petPicture" />
-        </LinearLayout>
+                app:layout_constraintTop_toBottomOf="@+id/choosePhotoButton" />
+        </android.support.constraint.ConstraintLayout>
 
     </ScrollView>
 
