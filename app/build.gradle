@@ -9,8 +9,8 @@ android {
     buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId "io.hackharvard.pawz"
-        minSdkVersion 23
-        targetSdkVersion 26
+        minSdkVersion 21
+        targetSdkVersion 21
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -32,4 +32,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation 'com.google.android.gms:play-services-maps:11.4.2'
+    implementation 'com.github.jkwiecien:EasyImage:2.0.3'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
 }
