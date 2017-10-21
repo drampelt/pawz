@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "499527962897",
+    "firebase_url": "https://pawz-9bb53.firebaseio.com",
+    "project_id": "pawz-9bb53",
+    "storage_bucket": "pawz-9bb53.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:499527962897:android:ecad7aec01360528",
+        "android_client_info": {
+          "package_name": "io.hackharvard.pawz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "499527962897-uokooartvl0e9uqkbth2lg28ahe4h637.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.hackharvard.pawz",
+            "certificate_hash": "42d0eef7216dc37c4859014e202b469023057c60"
+          }
+        },
+        {
+          "client_id": "499527962897-tgd4vi1fuq14frgvr30qn1jnsps7fsdt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBX6V_tWDK1mP3mdtCczbeEshf044WycKg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "499527962897-tgd4vi1fuq14frgvr30qn1jnsps7fsdt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
