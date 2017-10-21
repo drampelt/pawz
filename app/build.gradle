@@ -35,4 +35,7 @@ dependencies {
     implementation 'com.android.support:design:26.1.0'
     implementation 'com.github.jkwiecien:EasyImage:2.0.3'
     implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.google.firebase:firebase-firestore:11.4.2'
 }
+
+apply plugin: 'com.google.gms.google-services'
