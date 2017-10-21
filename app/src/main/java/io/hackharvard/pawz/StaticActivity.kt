@@ -3,6 +3,7 @@ package io.hackharvard.pawz
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Point
 import android.location.Location
 import android.net.Uri
 import android.os.Bundle
@@ -13,6 +14,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -41,12 +43,21 @@ class StaticActivity : AppCompatActivity() {
 
     private lateinit var db: FirebaseFirestore
     private lateinit var storage: FirebaseStorage
+    private lateinit var map: GoogleMap
+    lateinit var geoDataClient: GeoDataClient
+    lateinit var placeDetectionClient: PlaceDetectionClient
+    lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    val DEFAULT_ZOOM = 16f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_static)
+        geoDataClient = Places.getGeoDataClient(this, null)
+        placeDetectionClient = Places.getPlaceDetectionClient(this, null)
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
         val id = intent.getStringExtra("petid")
+        var marker: Marker? = null
         db = FirebaseFirestore.getInstance()
         storage = FirebaseStorage.getInstance()
 
@@ -58,6 +69,34 @@ class StaticActivity : AppCompatActivity() {
                 petGender.text = "Gender: ${pet["gender"]}"
                 furColor.text = "Fur Color(s): " + (pet["fur_colors"] as List<String>).joinToString(", ")
                 eyeColor.text = "Eye Color(s): " + (pet["eye_colors"] as List<String>).joinToString(", ")
+                val longitude = (pet["longitude"] as Double)
+                val latitude = (pet["latitude"] as Double)
+
+                //trying to add map to lost pet owner screen.. :/ map doesn't seem to load
+                var point = LatLng(latitude, longitude)
+
+                mapView2.onCreate(savedInstanceState)
+                mapView2.getMapAsync { map ->
+                    this.map = map
+                    map.setMyLocationEnabled(true)
+                    map.getUiSettings().setMyLocationButtonEnabled(true)
+                    getLocalResult2()
+                    marker = map.addMarker(
+                            MarkerOptions()
+                                    .position(point)
+                                    .title("Sighting Location")
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+                    )
+                }
+
+                mapView2.setOnTouchListener { v, event ->
+                    when (event.action) {
+                        MotionEvent.ACTION_DOWN -> scrollView.requestDisallowInterceptTouchEvent(true)
+                        MotionEvent.ACTION_UP -> scrollView.requestDisallowInterceptTouchEvent(false)
+                    }
+                    v.onTouchEvent(event)
+                    true
+                }
             }else{
                 Log.e("StaticActivity", "Failed to fetch lost pet id", task.exception)
             }
@@ -76,17 +115,30 @@ class StaticActivity : AppCompatActivity() {
 
         delete.setOnClickListener {
             db.collection("missing_pets").document(id).delete().addOnCompleteListener { task ->
-                if(task.isSuccessful){
+                if (task.isSuccessful) {
                     val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
                     sharedPreferences.edit().remove("pet_id").apply()
                     finish()
-                }else{
+                } else {
                     Log.e("StaticActivity", "Could not remove entry")
                 }
             }
-
         }
+    }
 
+    //trying to add map to existing pet layout
+    fun getLocalResult2() {
+        val locationResult = fusedLocationProviderClient.getLastLocation()
+        locationResult.addOnCompleteListener(this, object : OnCompleteListener<Location> {
+            override fun onComplete(task: Task<Location>) {
+                if (task.isSuccessful) {
+                    val lastKnownLocation = task.result
+                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                            LatLng(lastKnownLocation.getLatitude(),
+                                    lastKnownLocation.getLongitude()), DEFAULT_ZOOM))
+                }
+            }
+        })
 
     }
 }

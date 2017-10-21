@@ -158,7 +158,7 @@ class PetInfoActivity : AppCompatActivity() {
             genderSelected &&
             furColourTyped &&
             eyeColourTyped &&
-            (!found && nameTyped) &&
+                ((!found && nameTyped) || found) &&
             imageSelected &&
             locationSelected) {
             val catSelected = catButton.isChecked
@@ -177,7 +177,36 @@ class PetInfoActivity : AppCompatActivity() {
             var latitude = marker!!.position.latitude
 
             if (found) {
-                // TODO
+                //added for reporting pet
+                val pet = mapOf(
+                        "name" to "",
+                        "species" to species,
+                        "gender" to gender,
+                        "fur_colors" to furColour.split(',').map(String::trim),
+                        "eye_colors" to eyeColour.split(',').map(String::trim),
+                        "latitude" to latitude,
+                        "longitude" to longitude
+                )
+
+                db.collection("missing_pets")
+                        .add(pet)
+                        .addOnSuccessListener { ref ->
+                            Toast.makeText(this, "Ref ${ref.id}", Toast.LENGTH_LONG).show()
+                            sharedPreferences.edit().putString("pet_id", ref.id).apply()
+
+                            if (filePath == null) return@addOnSuccessListener
+                            val file = Uri.fromFile(File(filePath))
+                            val ref = storage.getReference("images/${ref.id}")
+                            val task = ref.putFile(file)
+                            task.addOnSuccessListener { snapshot ->
+                                Toast.makeText(this, "Snap ${snapshot.metadata?.contentType}", Toast.LENGTH_LONG).show()
+                            }.addOnFailureListener { e ->
+                                Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_LONG).show()
+                            }
+                        }
+                finish()
+                //does this need to change?
+
             } else {
                 val pet = mapOf(
                     "name" to nameText,
