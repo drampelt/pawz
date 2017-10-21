@@ -82,10 +82,10 @@ class PetInfoActivity : AppCompatActivity() {
             map.setOnMapLongClickListener { point ->
                 marker?.remove()
                 marker = map.addMarker(
-                    MarkerOptions()
-                        .position(point)
-                        .title("Sighting Location")
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+                        MarkerOptions()
+                                .position(point)
+                                .title("Sighting Location")
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
                 )
                 vibrationService.vibrate(25)
             }
@@ -100,29 +100,29 @@ class PetInfoActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem) =// Handle item selection
-        when (item.itemId) {
-            R.id.petInfoSubmit -> {
-                validateAndSave()
-                true
+            when (item.itemId) {
+                R.id.petInfoSubmit -> {
+                    validateAndSave()
+                    true
+                }
+                else -> super.onOptionsItemSelected(item)
             }
-            else -> super.onOptionsItemSelected(item)
-        }
 
     private fun validateAndSave() {
         var TAG = "Checking for Found";
 
-        var nameTyped = false       //nameText
-        var breedSelected = false   //breed
-        var genderSelected = false  //gender
-        var furColourTyped = false  //furColour
-        var eyeColourTyped = false  //eyeColour
+        var nameTyped = false        //nameText
+        var breedSelected = false    //breed
+        var genderSelected = false   //gender
+        var furColourTyped = false   //furColour
+        var eyeColourTyped = false   //eyeColour
+        var imageSelected = false    //filepath
+        var locationSelected = false //longitude, latitude
+
         val found = intent.getBooleanExtra("found", false)
         if (!found && nameField.text.toString() != "") {
             nameTyped = true
         }
-        //to-be implemented later
-        //val imageSelected = false
-        //val locationSelected = false
 
         //check for items filled
         if (catButton.isChecked || dogButton.isChecked) {
@@ -138,11 +138,21 @@ class PetInfoActivity : AppCompatActivity() {
             eyeColourTyped = true
         }
 
+        if (filePath != null) {
+            imageSelected = true
+        }
+
+        if (marker != null) {
+            locationSelected = true
+        }
+
         if (breedSelected &&
-            genderSelected &&
-            furColourTyped &&
-            eyeColourTyped &&
-            (!found && nameTyped)) {
+                genderSelected &&
+                furColourTyped &&
+                eyeColourTyped &&
+                (!found && nameTyped) &&
+                imageSelected &&
+                locationSelected){
             val catSelected = catButton.isChecked
             val species = if (catSelected) "cat" else "dog"
 
@@ -152,18 +162,21 @@ class PetInfoActivity : AppCompatActivity() {
             val furColour = furColorField.text.toString()
             val eyeColour = eyeColorField.text.toString()
 
-            //retrieve colour, GPS coordinate
+            //retrieve photo, GPS coordinate
             var nameText = nameField.text.toString()
+
+            var longitude = marker!!.position.longitude
+            var latitude = marker!!.position.latitude
 
             if (found) {
                 // TODO
             } else {
                 val pet = mapOf(
-                    "name" to nameText,
-                    "species" to species,
-                    "gender" to gender,
-                    "fur_colors" to furColour.split(',').map(String::trim),
-                    "eye_colors" to eyeColour.split(',').map(String::trim)
+                        "name" to nameText,
+                        "species" to species,
+                        "gender" to gender,
+                        "fur_colors" to furColour.split(',').map(String::trim),
+                        "eye_colors" to eyeColour.split(',').map(String::trim)
                 )
 
                 db.collection("missing_pets")
@@ -181,9 +194,6 @@ class PetInfoActivity : AppCompatActivity() {
                         }.addOnFailureListener { e ->
                             Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_LONG).show()
                         }
-                    }
-                    .addOnFailureListener { e ->
-                        Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_LONG).show()
                     }
             }
         } else {
@@ -204,10 +214,16 @@ class PetInfoActivity : AppCompatActivity() {
             if (!found && !nameTyped) {
                 missing += "Name not filled out\n"
             }
+            if (!imageSelected) {
+                missing += "Image not selected\n"
+            }
+            if (!locationSelected) {
+                missing += "Location not selected\n"
+            }
 
             if (missing != "") {
                 Snackbar.make(contentView, missing, Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+                        .setAction("Action", null).show()
             }
         }
     }
