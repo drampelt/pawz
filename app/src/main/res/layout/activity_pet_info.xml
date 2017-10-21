@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="io.hackharvard.pawz.PetInfoActivity"
+    android:id="@+id/contentView"
     >
 
     <EditText
@@ -20,8 +21,7 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <RadioButton
         android:id="@+id/catButton"
@@ -31,8 +31,7 @@
         android:layout_marginTop="8dp"
         android:text="Cat"
         app:layout_constraintStart_toEndOf="@+id/speciesLabel"
-        app:layout_constraintTop_toBottomOf="@+id/nameField"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/nameField" />
 
     <RadioButton
         android:id="@+id/dogButton"
