@@ -69,7 +69,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="56dp"
-        android:text="This is Pawz's slogan."
+        android:text="Pawz for a second and save an animla."
         android:textColor="#eeeeee"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"

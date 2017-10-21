@@ -63,6 +63,7 @@ class PetInfoActivity : AppCompatActivity() {
         title = "Pawz - Pet Info"
         db = FirebaseFirestore.getInstance()
         storage = FirebaseStorage.getInstance()
+        supportActionBar?.setDisplayHomeAsUpEnabled(true);
 
         found = intent.getBooleanExtra("found", false)
         if (found) {
@@ -103,7 +104,7 @@ class PetInfoActivity : AppCompatActivity() {
                 validateAndSave()
                 true
             }
-            R.id.petInfoCancel -> {
+            android.R.id.home -> {
                 finish()
                 true
             }

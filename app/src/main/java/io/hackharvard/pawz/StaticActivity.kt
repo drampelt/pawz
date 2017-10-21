@@ -41,6 +41,8 @@ class StaticActivity : AppCompatActivity() {
         placeDetectionClient = Places.getPlaceDetectionClient(this, null)
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true);
+
 
         val id = intent.getStringExtra("petid")
         var marker: Marker? = null
@@ -157,4 +159,13 @@ class StaticActivity : AppCompatActivity() {
         })
 
     }
+
+    override fun onOptionsItemSelected(item: MenuItem) =// Handle item selection
+            when (item.itemId) {
+                R.id.home -> {
+                    finish()
+                    true
+                }
+                else -> super.onOptionsItemSelected(item)
+            }
 }
