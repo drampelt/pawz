@@ -15,7 +15,9 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
+import android.widget.Toast
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.places.GeoDataClient
@@ -29,7 +31,6 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
-import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
@@ -37,8 +38,6 @@ import kotlinx.android.synthetic.main.activity_pet_info.*
 import pl.aprilapps.easyphotopicker.DefaultCallback
 import pl.aprilapps.easyphotopicker.EasyImage
 import java.io.File
-
-
 
 
 class PetInfoActivity : AppCompatActivity() {
@@ -82,10 +81,10 @@ class PetInfoActivity : AppCompatActivity() {
             map.setOnMapLongClickListener { point ->
                 marker?.remove()
                 marker = map.addMarker(
-                        MarkerOptions()
-                                .position(point)
-                                .title("Sighting Location")
-                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+                    MarkerOptions()
+                        .position(point)
+                        .title("Sighting Location")
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
                 )
                 vibrationService.vibrate(25)
             }
@@ -97,16 +96,25 @@ class PetInfoActivity : AppCompatActivity() {
 
             petPicture
         }
+
+        mapView.setOnTouchListener { v, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> scrollView.requestDisallowInterceptTouchEvent(true)
+                MotionEvent.ACTION_UP -> scrollView.requestDisallowInterceptTouchEvent(false)
+            }
+            v.onTouchEvent(event)
+            true
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem) =// Handle item selection
-            when (item.itemId) {
-                R.id.petInfoSubmit -> {
-                    validateAndSave()
-                    true
-                }
-                else -> super.onOptionsItemSelected(item)
+        when (item.itemId) {
+            R.id.petInfoSubmit -> {
+                validateAndSave()
+                true
             }
+            else -> super.onOptionsItemSelected(item)
+        }
 
     private fun validateAndSave() {
         var TAG = "Checking for Found";
@@ -147,12 +155,12 @@ class PetInfoActivity : AppCompatActivity() {
         }
 
         if (breedSelected &&
-                genderSelected &&
-                furColourTyped &&
-                eyeColourTyped &&
-                (!found && nameTyped) &&
-                imageSelected &&
-                locationSelected){
+            genderSelected &&
+            furColourTyped &&
+            eyeColourTyped &&
+            (!found && nameTyped) &&
+            imageSelected &&
+            locationSelected) {
             val catSelected = catButton.isChecked
             val species = if (catSelected) "cat" else "dog"
 
@@ -172,11 +180,13 @@ class PetInfoActivity : AppCompatActivity() {
                 // TODO
             } else {
                 val pet = mapOf(
-                        "name" to nameText,
-                        "species" to species,
-                        "gender" to gender,
-                        "fur_colors" to furColour.split(',').map(String::trim),
-                        "eye_colors" to eyeColour.split(',').map(String::trim)
+                    "name" to nameText,
+                    "species" to species,
+                    "gender" to gender,
+                    "fur_colors" to furColour.split(',').map(String::trim),
+                    "eye_colors" to eyeColour.split(',').map(String::trim),
+                    "latitude" to latitude,
+                    "longitude" to longitude
                 )
 
                 db.collection("missing_pets")
@@ -224,7 +234,7 @@ class PetInfoActivity : AppCompatActivity() {
 
             if (missing != "") {
                 Snackbar.make(contentView, missing, Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show()
+                    .setAction("Action", null).show()
             }
         }
     }
@@ -297,14 +307,13 @@ class PetInfoActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     val lastKnownLocation = task.result
                     map.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                            LatLng(lastKnownLocation.getLatitude(),
-                                    lastKnownLocation.getLongitude()), DEFAULT_ZOOM))
+                        LatLng(lastKnownLocation.getLatitude(),
+                            lastKnownLocation.getLongitude()), DEFAULT_ZOOM))
                 }
             }
         })
 
     }
-
 
 
 }

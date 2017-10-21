@@ -12,7 +12,9 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView"
+        >
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -166,7 +168,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/petPicture" />
 
-            <com.google.android.gms.maps.MapView
+            <io.hackharvard.pawz.CustomMapView
                 android:id="@+id/mapView"
                 android:layout_width="match_parent"
                 android:layout_height="333dp"
