@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.view.MenuItem
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.places.GeoDataClient
@@ -39,6 +40,7 @@ class StaticActivity : AppCompatActivity() {
         geoDataClient = Places.getGeoDataClient(this, null)
         placeDetectionClient = Places.getPlaceDetectionClient(this, null)
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+
 
         val id = intent.getStringExtra("petid")
         var marker: Marker? = null
@@ -101,6 +103,7 @@ class StaticActivity : AppCompatActivity() {
             }
         }
     }
+
 
     override fun onStart() {
         super.onStart()

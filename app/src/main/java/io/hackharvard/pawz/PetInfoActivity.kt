@@ -103,8 +103,16 @@ class PetInfoActivity : AppCompatActivity() {
                 validateAndSave()
                 true
             }
+            R.id.petInfoCancel -> {
+                finish()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
+
+
+
+
 
     private fun validateAndSave() {
         var TAG = "Checking for Found";
