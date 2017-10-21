@@ -74,5 +74,19 @@ class StaticActivity : AppCompatActivity() {
         }
 
 
+        delete.setOnClickListener {
+            db.collection("missing_pets").document(id).delete().addOnCompleteListener { task ->
+                if(task.isSuccessful){
+                    val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+                    sharedPreferences.edit().remove("pet_id").apply()
+                    finish()
+                }else{
+                    Log.e("StaticActivity", "Could not remove entry")
+                }
+            }
+
+        }
+
+
     }
 }

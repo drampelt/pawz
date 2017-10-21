@@ -195,6 +195,7 @@ class PetInfoActivity : AppCompatActivity() {
                             Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_LONG).show()
                         }
                     }
+                finish()
             }
         } else {
             var missing = ""
