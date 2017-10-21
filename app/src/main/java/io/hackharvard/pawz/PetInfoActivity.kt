@@ -1,28 +1,35 @@
 package io.hackharvard.pawz
 
+//import com.google.android.gms.maps.model.BitmapDescriptorFactory
+//import com.google.android.gms.maps.model.Marker
+//import com.google.android.gms.maps.model.MarkerOptions
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
+import android.content.SharedPreferences
 import android.location.Location
 import android.net.Uri
 import android.os.Bundle
-import android.os.ResultReceiver
 import android.os.Vibrator
+import android.preference.PreferenceManager
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
+import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.places.GeoDataClient
+import com.google.android.gms.location.places.PlaceDetectionClient
 import com.google.android.gms.location.places.Places
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
-import android.widget.Toast
-//import com.google.android.gms.maps.model.BitmapDescriptorFactory
-//import com.google.android.gms.maps.model.Marker
-//import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
@@ -30,14 +37,6 @@ import kotlinx.android.synthetic.main.activity_pet_info.*
 import pl.aprilapps.easyphotopicker.DefaultCallback
 import pl.aprilapps.easyphotopicker.EasyImage
 import java.io.File
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.model.LatLng
-import android.support.annotation.NonNull
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.places.GeoDataClient
-import com.google.android.gms.location.places.PlaceDetectionClient
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.tasks.OnCompleteListener
 
 
 
@@ -54,16 +53,15 @@ class PetInfoActivity : AppCompatActivity() {
     private lateinit var storage: FirebaseStorage
     private var found = false
     private var filePath: String? = null
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_pet_info)
         geoDataClient = Places.getGeoDataClient(this, null)
         placeDetectionClient = Places.getPlaceDetectionClient(this, null)
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-
-
-
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_pet_info)
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         title = "Pawz - Pet Info"
         db = FirebaseFirestore.getInstance()
         storage = FirebaseStorage.getInstance()
@@ -172,6 +170,7 @@ class PetInfoActivity : AppCompatActivity() {
                     .add(pet)
                     .addOnSuccessListener { ref ->
                         Toast.makeText(this, "Ref ${ref.id}", Toast.LENGTH_LONG).show()
+                        sharedPreferences.edit().putString("pet_id", ref.id).apply()
 
                         if (filePath == null) return@addOnSuccessListener
                         val file = Uri.fromFile(File(filePath))
