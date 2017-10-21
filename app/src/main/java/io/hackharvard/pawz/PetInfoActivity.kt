@@ -15,7 +15,6 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -95,15 +94,6 @@ class PetInfoActivity : AppCompatActivity() {
             EasyImage.openChooserWithGallery(this, stringTxt, 0);
 
             petPicture
-        }
-
-        mapView.setOnTouchListener { v, event ->
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> scrollView.requestDisallowInterceptTouchEvent(true)
-                MotionEvent.ACTION_UP -> scrollView.requestDisallowInterceptTouchEvent(false)
-            }
-            v.onTouchEvent(event)
-            true
         }
     }
 

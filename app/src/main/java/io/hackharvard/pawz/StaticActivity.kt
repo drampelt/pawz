@@ -1,21 +1,10 @@
 package io.hackharvard.pawz
 
-import android.content.Context
-import android.content.Intent
-import android.content.SharedPreferences
-import android.graphics.Point
 import android.location.Location
-import android.net.Uri
 import android.os.Bundle
-import android.os.Vibrator
 import android.preference.PreferenceManager
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
-import android.view.MotionEvent
-import android.view.View
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.places.GeoDataClient
@@ -29,15 +18,10 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
-import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_pet_info.*
 import kotlinx.android.synthetic.main.activity_static.*
-import pl.aprilapps.easyphotopicker.DefaultCallback
-import pl.aprilapps.easyphotopicker.EasyImage
-import java.io.File
 
 class StaticActivity : AppCompatActivity() {
 
@@ -61,6 +45,8 @@ class StaticActivity : AppCompatActivity() {
         db = FirebaseFirestore.getInstance()
         storage = FirebaseStorage.getInstance()
 
+        mapView2.onCreate(savedInstanceState)
+
         db.collection("missing_pets").document(id).get().addOnCompleteListener{ task ->
             if(task.isSuccessful()){
                 val pet = task.result.data
@@ -75,7 +61,6 @@ class StaticActivity : AppCompatActivity() {
                 //trying to add map to lost pet owner screen.. :/ map doesn't seem to load
                 var point = LatLng(latitude, longitude)
 
-                mapView2.onCreate(savedInstanceState)
                 mapView2.getMapAsync { map ->
                     this.map = map
                     map.setMyLocationEnabled(true)
@@ -85,17 +70,8 @@ class StaticActivity : AppCompatActivity() {
                             MarkerOptions()
                                     .position(point)
                                     .title("Sighting Location")
-                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
                     )
-                }
-
-                mapView2.setOnTouchListener { v, event ->
-                    when (event.action) {
-                        MotionEvent.ACTION_DOWN -> scrollView.requestDisallowInterceptTouchEvent(true)
-                        MotionEvent.ACTION_UP -> scrollView.requestDisallowInterceptTouchEvent(false)
-                    }
-                    v.onTouchEvent(event)
-                    true
                 }
             }else{
                 Log.e("StaticActivity", "Failed to fetch lost pet id", task.exception)
@@ -125,6 +101,43 @@ class StaticActivity : AppCompatActivity() {
             }
         }
     }
+
+    override fun onStart() {
+        super.onStart()
+        mapView2.onStart()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mapView2.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mapView2.onPause()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        mapView2.onStop()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mapView2.onDestroy()
+    }
+
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        mapView2.onSaveInstanceState(outState)
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        mapView2.onLowMemory()
+    }
+
 
     //trying to add map to existing pet layout
     fun getLocalResult2() {
