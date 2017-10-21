@@ -119,7 +119,7 @@ class PetInfoActivity : AppCompatActivity() {
                     if (!eyeColourTyped) {
                         missing += "Eye colour not filled out\n"
                     }
-                    //snackbar still shows when name field isnt there
+                    //snackbar still shows when name field isnt ther
                     if (!found && !nameTyped) {
                         missing += "Name not filled out\n"
                     }
