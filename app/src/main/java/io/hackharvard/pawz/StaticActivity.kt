@@ -65,6 +65,18 @@ class StaticActivity : AppCompatActivity() {
                 //trying to add map to lost pet owner screen.. :/ map doesn't seem to load
                 var point = LatLng(latitude, longitude)
 
+                db.collection("missing_pets").document(id).collection("sightings").get()
+                    .addOnSuccessListener { snapshot ->
+                        snapshot.forEach { sighting ->
+                            map.addMarker(
+                                MarkerOptions()
+                                    .position(LatLng(sighting["latitude"] as Double, sighting["longitude"] as Double))
+                                    .title("Sighting")
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+                            )
+                        }
+                    }
+
                 mapView2.getMapAsync { map ->
                     this.map = map
                     map.setMyLocationEnabled(true)
