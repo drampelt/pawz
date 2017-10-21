@@ -1,25 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/contentView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="io.hackharvard.pawz.PetInfoActivity"
-    android:id="@+id/contentView"
     android:background="#EDEEC9"
-    >
+    tools:context="io.hackharvard.pawz.PetInfoActivity">
 
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/scrollView"
-        >
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
             <EditText
                 android:id="@+id/nameField"
@@ -31,7 +27,7 @@
                 android:ems="10"
                 android:hint="Name"
                 android:inputType="textPersonName"
-                android:textColor="#eee"
+                android:textColor="@color/common_google_signin_btn_text_dark_focused"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -150,8 +146,7 @@
                 app:layout_constraintStart_toStartOf="@+id/eyeColorField"
                 app:layout_constraintTop_toBottomOf="@+id/eyeColorField"
                 tools:layout_editor_absoluteX="8dp"
-                tools:layout_editor_absoluteY="140dp"
-                />
+                tools:layout_editor_absoluteY="140dp" />
 
             <Button
                 android:id="@+id/choosePhotoButton"
@@ -183,7 +178,6 @@
         </android.support.constraint.ConstraintLayout>
 
     </ScrollView>
-
 
 
 </android.support.constraint.ConstraintLayout>
