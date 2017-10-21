@@ -27,10 +27,10 @@
         android:id="@+id/speciesRadioGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="8dp"
         android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="@+id/nameField"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameField">
 
         <TextView
@@ -40,7 +40,7 @@
             android:text="Species"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/nameField" />
+            />
 
         <RadioButton
             android:id="@+id/catButton"
@@ -49,7 +49,7 @@
             android:layout_marginStart="8dp"
             android:text="Cat"
             app:layout_constraintStart_toEndOf="@+id/speciesLabel"
-            app:layout_constraintTop_toBottomOf="@+id/nameField" />
+            />
 
         <RadioButton
             android:id="@+id/dogButton"
@@ -58,7 +58,7 @@
             android:layout_marginStart="16dp"
             android:text="Dog"
             app:layout_constraintStart_toEndOf="@+id/catButton"
-            app:layout_constraintTop_toBottomOf="@+id/nameField" />
+            />
 
     </RadioGroup>
 
@@ -67,13 +67,12 @@
         android:id="@+id/genderRadioGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="0dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="@+id/speciesRadioGroup"
-        app:layout_constraintTop_toBottomOf="@+id/speciesRadioGroup"
-        >
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/speciesRadioGroup">
+
         <TextView
             android:id="@+id/genderLabel"
             android:layout_width="wrap_content"
@@ -81,8 +80,7 @@
             android:text="Gender"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@+id/catButton"
-            app:layout_constraintTop_toBottomOf="@+id/speciesRadioGroup"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/speciesRadioGroup" />
 
         <RadioButton
             android:id="@+id/maleButton"
@@ -91,8 +89,7 @@
             android:layout_marginStart="12dp"
             android:text="Male"
             app:layout_constraintStart_toEndOf="@+id/genderLabel"
-            tools:layout_editor_absoluteY="110dp"
-            />
+            tools:layout_editor_absoluteY="110dp" />
 
         <RadioButton
             android:id="@+id/femaleButton"
@@ -101,8 +98,7 @@
             android:layout_marginStart="8dp"
             android:text="Female"
             app:layout_constraintStart_toEndOf="@+id/maleButton"
-            app:layout_constraintTop_toTopOf="@+id/maleButton"
-            />
+            app:layout_constraintTop_toTopOf="@+id/maleButton" />
     </RadioGroup>
 
     <EditText
