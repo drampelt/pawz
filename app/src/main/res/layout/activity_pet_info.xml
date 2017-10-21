@@ -23,27 +23,87 @@
         app:layout_constraintTop_toTopOf="parent"
         />
 
-    <RadioButton
-        android:id="@+id/catButton"
+    <RadioGroup
+        android:id="@+id/speciesRadioGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
-        android:text="Cat"
-        app:layout_constraintStart_toEndOf="@+id/speciesLabel"
-        app:layout_constraintTop_toBottomOf="@+id/nameField"
-        />
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="@+id/nameField"
+        app:layout_constraintTop_toBottomOf="@+id/nameField">
 
-    <RadioButton
-        android:id="@+id/dogButton"
+        <TextView
+            android:id="@+id/speciesLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Species"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nameField" />
+
+        <RadioButton
+            android:id="@+id/catButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Cat"
+            app:layout_constraintStart_toEndOf="@+id/speciesLabel"
+            app:layout_constraintTop_toBottomOf="@+id/nameField" />
+
+        <RadioButton
+            android:id="@+id/dogButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Dog"
+            app:layout_constraintStart_toEndOf="@+id/catButton"
+            app:layout_constraintTop_toBottomOf="@+id/nameField" />
+
+    </RadioGroup>
+
+
+    <RadioGroup
+        android:id="@+id/genderRadioGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:orientation="horizontal"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="0dp"
         android:layout_marginTop="8dp"
-        android:text="Dog"
-        app:layout_constraintStart_toEndOf="@+id/catButton"
-        app:layout_constraintTop_toBottomOf="@+id/nameField"
-        />
+        app:layout_constraintStart_toStartOf="@+id/speciesRadioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/speciesRadioGroup"
+        >
+        <TextView
+            android:id="@+id/genderLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gender"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/catButton"
+            app:layout_constraintTop_toBottomOf="@+id/speciesRadioGroup"
+            />
+
+        <RadioButton
+            android:id="@+id/maleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="Male"
+            app:layout_constraintStart_toEndOf="@+id/genderLabel"
+            tools:layout_editor_absoluteY="110dp"
+            />
+
+        <RadioButton
+            android:id="@+id/femaleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Female"
+            app:layout_constraintStart_toEndOf="@+id/maleButton"
+            app:layout_constraintTop_toTopOf="@+id/maleButton"
+            />
+    </RadioGroup>
 
     <EditText
         android:id="@+id/furColorField"
@@ -58,7 +118,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/genderLabel"
+        app:layout_constraintTop_toBottomOf="@+id/genderRadioGroup"
         />
 
     <EditText
@@ -76,58 +136,16 @@
         app:layout_constraintTop_toBottomOf="@+id/furColorField"
         />
 
-    <TextView
-        android:id="@+id/speciesLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Species"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameField"
-        />
-
-    <TextView
-        android:id="@+id/genderLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:text="Gender"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/speciesLabel"
-        />
-
-    <RadioButton
-        android:id="@+id/maleButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:text="Male"
-        app:layout_constraintStart_toEndOf="@+id/genderLabel"
-        app:layout_constraintTop_toTopOf="@+id/genderLabel"
-        />
-
-    <RadioButton
-        android:id="@+id/femaleButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="Female"
-        app:layout_constraintStart_toEndOf="@+id/maleButton"
-        app:layout_constraintTop_toTopOf="@+id/maleButton"
-        />
-
     <ImageView
         android:id="@+id/petPicture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
         android:src="@mipmap/ic_launcher"
-        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="140dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@+id/eyeColorField"
         app:layout_constraintTop_toBottomOf="@+id/eyeColorField"
         />
 
@@ -135,14 +153,11 @@
         android:id="@+id/choosePhotoButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Choose Photo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/petPicture"
-        app:layout_constraintTop_toBottomOf="@+id/eyeColorField"
-        />
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="12dp"
+        android:text="Upload Photo"
+        app:layout_constraintBottom_toBottomOf="@+id/petPicture"
+        app:layout_constraintStart_toEndOf="@+id/petPicture" />
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapView"
@@ -151,7 +166,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="14dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
