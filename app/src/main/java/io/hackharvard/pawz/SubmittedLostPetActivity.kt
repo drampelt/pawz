@@ -13,6 +13,34 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
+import android.location.Location
+import android.net.Uri
+import android.os.Vibrator
+import android.preference.PreferenceManager
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.places.GeoDataClient
+import com.google.android.gms.location.places.PlaceDetectionClient
+import com.google.android.gms.location.places.Places
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
+import android.widget.Toast
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_pet_info.*
+import pl.aprilapps.easyphotopicker.DefaultCallback
+import pl.aprilapps.easyphotopicker.EasyImage
+import java.io.File
 
 import kotlinx.android.synthetic.main.activity_submitted_lost_pet.*
 import kotlinx.android.synthetic.main.fragment_submitted_lost_pet.view.*
@@ -40,11 +68,6 @@ class SubmittedLostPetActivity : AppCompatActivity() {
 
         // Set up the ViewPager with the sections adapter.
         container.adapter = mSectionsPagerAdapter
-
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }
 
     }
 
@@ -82,13 +105,13 @@ class SubmittedLostPetActivity : AppCompatActivity() {
         }
 
         override fun getCount(): Int {
-            // Show 3 total pages.
-            return 3
+            // Show 2 total pages.
+            return 2
         }
     }
 
     /**
-     * A placeholder fragment containing a simple view.
+     * View One has the map w/all the pins
      */
     class PlaceholderFragment : Fragment() {
 
@@ -119,4 +142,9 @@ class SubmittedLostPetActivity : AppCompatActivity() {
             }
         }
     }
+
+
+
+
+
 }
