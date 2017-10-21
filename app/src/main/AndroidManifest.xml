@@ -30,11 +30,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".PetInfoActivity"></activity>
+        <activity android:name=".PetInfoActivity" />
         <activity
             android:name=".SubmittedLostPetActivity"
             android:label="@string/title_activity_submitted_lost_pet"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".StaticActivity"></activity>
     </application>
 
 </manifest>

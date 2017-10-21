@@ -20,8 +20,8 @@ class MainActivity : AppCompatActivity() {
                 intent.putExtra("found", false)
                 startActivity(intent)
             } else {
-                val intent = Intent(this, SubmittedLostPetActivity::class.java)
-                intent.putExtra("found", false)
+                val intent = Intent(this, StaticActivity::class.java)
+                intent.putExtra("petid", id)
                 startActivity(intent)
             }
         }
