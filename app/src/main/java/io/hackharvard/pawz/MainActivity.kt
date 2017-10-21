@@ -20,7 +20,9 @@ class MainActivity : AppCompatActivity() {
                 intent.putExtra("found", false)
                 startActivity(intent)
             } else {
-                // TODO: open other activity
+                val intent = Intent(this, SubmittedLostPetActivity::class.java)
+                intent.putExtra("found", false)
+                startActivity(intent)
             }
         }
 
